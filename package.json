@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "chai": "^4.3.10",
+    "dotenv": "^16.3.1",
+    "ethereum-waffle": "^4.0.10",
+    "ethers": "^6.8.1",
+    "hardhat": "^2.19.1"
+  },
+  "name": "nft-marketplace",
+  "description": "npx hardhat compile",
+  "version": "1.0.0",
+  "main": "hardhat.config.js",
+  "devDependencies": {
+    "mocha": "^10.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
