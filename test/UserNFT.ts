@@ -89,7 +89,12 @@ describe("UserNFT Contract", function() {
   });
   
   it("not owner could mint nft.", async function(){
-    expect(1).to.equal(0);
+    const { userNFTDeploy, owner } = await loadFixture(deployOneYearUserNFTFixture);
+    // await userNFTDeploy.nftMint(addr1.address, tokenURI1);
+    // console.log(addr1.address);
+    expect(await userNFTDeploy.nftMint(addr1.address, tokenURI1))
+    .to.be.revertedWithCustomError(userNFTDeploy, "OwnableUnauthorizedAccount")
+    .withArgs(addr1.address);
   });
 
 });
