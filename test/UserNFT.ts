@@ -99,6 +99,12 @@ describe("UserNFT Contract", function() {
       .withArgs(addr1.address);
     });
 
+    it("when nft mint, execute event TokenURIChanged.", async function(){
+      const { userNFTDeploy, owner } = await loadFixture(deployOneYearUserNFTFixture);
+      await expect(userNFTDeploy.nftMint(addr1.address, tokenURI1))
+      .to.emit(userNFTDeploy, "TokenURIChanged")
+      .withArgs(addr1.address, 1, tokenURI1);
+    });
   });
 
 });
