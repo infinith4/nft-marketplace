@@ -20,7 +20,7 @@ async function deployOneYearLockFixture() {
 
   const Lock = await ethers.getContractFactory("Lock");
   const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
+  
   return { lock, unlockTime, lockedAmount, owner, otherAccount };
 }
 describe("UserNFT Contract", function() {
@@ -36,12 +36,13 @@ describe("UserNFT Contract", function() {
     userNFT = await UserNFT.waitForDeployment();
   });
   const symbol = "USN";
-
   const name = "UserNFT";
+
   it("should set token name and symbol.", async function() {
     expect(await userNFT.name()).to.equal(name);
     expect(await userNFT.symbol()).to.equal(symbol);
   });
+  
   it("deploy address should owner.", async function() {
 
     const { lock, owner } = await loadFixture(deployOneYearLockFixture);
