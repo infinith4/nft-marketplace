@@ -50,53 +50,55 @@ describe("UserNFT Contract", function() {
   const tokenURI2: string = "uri2";
   const tokenURI3: string = "uri3";
   let addr1 : any;
-  
-  beforeEach(async function() {
-    [owner, addr1] = await ethers.getSigners();
+  describe("Deployment", function() {
+    beforeEach(async function() {
+      [owner, addr1] = await ethers.getSigners();
+      
+      const UserNFT = await ethers.deployContract("UserNFT");
+      userNFT = await UserNFT.waitForDeployment();
+    });
+    const symbol = "USN";
+    const name = "UserNFT";
+
+    it("should set token name and symbol.", async function() {
+      expect(await userNFT.name()).to.equal(name);
+      expect(await userNFT.symbol()).to.equal(symbol);
+    });
     
-    const UserNFT = await ethers.deployContract("UserNFT");
-    userNFT = await UserNFT.waitForDeployment();
-  });
-  const symbol = "USN";
-  const name = "UserNFT";
+    it("deploy address should owner.", async function() {
 
-  it("should set token name and symbol.", async function() {
-    expect(await userNFT.name()).to.equal(name);
-    expect(await userNFT.symbol()).to.equal(symbol);
-  });
-  
-  it("deploy address should owner.", async function() {
+      const { lock, owner } = await loadFixture(deployOneYearLockFixture);
+      expect(await lock.owner()).to.equal(owner.address);
+    });
 
-    const { lock, owner } = await loadFixture(deployOneYearLockFixture);
-    expect(await lock.owner()).to.equal(owner.address);
-  });
+    it("owner could mint nft.", async function(){
+      const { userNFTDeploy, owner } = await loadFixture(deployOneYearUserNFTFixture);
+      await userNFTDeploy.nftMint(addr1.address, tokenURI1);
+      
+      expect(await userNFTDeploy.ownerOf(1)).to.equal(addr1.address);
+    });
 
-  it("owner could mint nft.", async function(){
-    const { userNFTDeploy, owner } = await loadFixture(deployOneYearUserNFTFixture);
-    await userNFTDeploy.nftMint(addr1.address, tokenURI1);
+    it("tokenId is incremented.", async function(){
+      const { userNFTDeploy, owner } = await loadFixture(deployOneYearUserNFTFixture);
+      await userNFTDeploy.nftMint(addr1.address, tokenURI1);
+      await userNFTDeploy.nftMint(addr1.address, tokenURI2);
+      await userNFTDeploy.nftMint(addr1.address, tokenURI3);
+      expect(await userNFTDeploy.tokenURI(1)).to.equal(tokenURI1);
+      expect(await userNFTDeploy.tokenURI(2)).to.equal(tokenURI2);
+      expect(await userNFTDeploy.tokenURI(3)).to.equal(tokenURI3);
+    });
     
-    expect(await userNFTDeploy.ownerOf(1)).to.equal(addr1.address);
-  });
+    it("not owner could mint nft.", async function(){
+      const { userNFTDeploy, owner } = await loadFixture(deployOneYearUserNFTFixture);
+      // await userNFTDeploy.nftMint(addr1.address, tokenURI1);
+      // console.log(owner.address);
+      // console.log(addr1.address);
+      //connect(addr1) は誰が実行するか
+      await expect(userNFTDeploy.connect(addr1).nftMint(addr1.address, tokenURI1))
+      .to.be.revertedWithCustomError(userNFTDeploy, "OwnableUnauthorizedAccount")
+      .withArgs(addr1.address);
+    });
 
-  it("tokenId is incremented.", async function(){
-    const { userNFTDeploy, owner } = await loadFixture(deployOneYearUserNFTFixture);
-    await userNFTDeploy.nftMint(addr1.address, tokenURI1);
-    await userNFTDeploy.nftMint(addr1.address, tokenURI2);
-    await userNFTDeploy.nftMint(addr1.address, tokenURI3);
-    expect(await userNFTDeploy.tokenURI(1)).to.equal(tokenURI1);
-    expect(await userNFTDeploy.tokenURI(2)).to.equal(tokenURI2);
-    expect(await userNFTDeploy.tokenURI(3)).to.equal(tokenURI3);
-  });
-  
-  it("not owner could mint nft.", async function(){
-    const { userNFTDeploy, owner } = await loadFixture(deployOneYearUserNFTFixture);
-    // await userNFTDeploy.nftMint(addr1.address, tokenURI1);
-    // console.log(owner.address);
-    // console.log(addr1.address);
-    //connect(addr1) は誰が実行するか
-    await expect(userNFTDeploy.connect(addr1).nftMint(addr1.address, tokenURI1))
-    .to.be.revertedWithCustomError(userNFTDeploy, "OwnableUnauthorizedAccount")
-    .withArgs(addr1.address);
   });
 
 });
