@@ -7,6 +7,14 @@ import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/
 
 contract UserNFT is ERC721URIStorage, Ownable {
     uint256 private _tokenIdCounter;
+
+    /**
+     * @dev 
+     * Event 
+     * Who minted the NFT with which TokenId
+     */
+    event TokenURIChanged(address indexed to , uint256 indexed tokenId, string uri);
+
     constructor() ERC721("UserNFT", "USN") Ownable(msg.sender) {
     }
 
@@ -22,6 +30,7 @@ contract UserNFT is ERC721URIStorage, Ownable {
         _tokenIdCounter += 1;
         _mint(to, _tokenIdCounter);
         _setTokenURI(_tokenIdCounter, uri);
+        emit TokenURIChanged(to, _tokenIdCounter, uri);
     }
 
     function awardItem(address player, string memory tokenURI)
