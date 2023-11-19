@@ -38,4 +38,12 @@ await userNFT.nftMint(address, "http://localhost:3030")
 await userNFT.ownerOf(1);
 
 await userNFT.tokenURI(1);
-await userNFT.tokenURI(1);
+
+await userNFT.balanceOf("0x5FbDB2315678afecb367f032d93F642f64180aa3");
+
+npx hardhat run scripts/userNFTdeploy.ts --network sepolia --show-stack-traces
+UserNFT https://sepolia.etherscan.io/address/0x8Ccb7518F91dA94A2a67f4fc909109bA68DfB60e timestamp 1700380659 deployed to 0x8Ccb7518F91dA94A2a67f4fc909109bA68DfB60e
+NFT#1 minted...
+NFT#2 minted...
+NFT#3 minted...
+NFT#4 minted...
