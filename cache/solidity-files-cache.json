@@ -681,6 +681,42 @@
       "artifacts": [
         "Ownable"
       ]
+    },
+    "/Users/hiroshi/projects/github/infinith4/nft-marketplace/contracts/TokenExchange.sol": {
+      "lastModificationDate": 1700474610946,
+      "contentHash": "c0ba1632bc22625d6eb5f160af518cea",
+      "sourceName": "contracts/TokenExchange.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "TokenExchange"
+      ]
     }
   }
 }
