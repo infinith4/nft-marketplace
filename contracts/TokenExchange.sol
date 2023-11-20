@@ -22,4 +22,12 @@ contract TokenExchange {
   /// @dev token exchange balances
   mapping(address => uint256) private _tokeExchangeBalances;
 
+  /// @dev Transfer token
+  event TokenTransfer(address indexed from, address indexed to, uint256 amount);
+
+  /// @dev Deposit token
+  event TokenDeposit(address indexed from, uint256 amount);
+
+  /// @dev Withdraw token
+  event TokenWithdraw(address indexed from, uint256 amount);
 }
