@@ -43,6 +43,11 @@ contract TokenExchange {
     return _name;
   }
 
+  /// @dev return token symbol
+  function symbol() public view returns (string memory){
+    return _symbol;
+  }
+
   /// @dev return token totalSupply
   function totalSupply() public pure returns (uint256){
     return _totalSupply;

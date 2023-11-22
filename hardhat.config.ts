@@ -8,7 +8,7 @@ const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.20",
-  defaultNetwork: "sepolia",
+  defaultNetwork: "hardhat",
   networks:{
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,

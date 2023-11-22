@@ -106,5 +106,4 @@ describe("UserNFT Contract", function() {
       .withArgs(addr1.address, 1, tokenURI1);
     });
   });
-
 });
