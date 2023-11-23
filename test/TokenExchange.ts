@@ -54,6 +54,11 @@ describe("TokenExchange Contract", function() {
       const ownerBalance = await tokenExchangeDeploy.balanceOf(owner.address)
       expect(await tokenExchangeDeploy.totalSupply()).to.equal(ownerBalance);
     });
+    
+    it("Balance is zero", async function() {
+      const { tokenExchangeDeploy, owner } = await loadFixture(deployOneYearTokenExchangeFixture);
+      expect(await tokenExchangeDeploy.exchangeTotalDeposit()).to.equal(0);
+    });
 
   });
   describe("transaction", function() {
@@ -89,6 +94,35 @@ describe("TokenExchange Contract", function() {
       const { tokenExchangeDeploy, owner, addr1, addr2} = await loadFixture(deployOneYearTokenExchangeFixture);
       await tokenExchangeDeploy.transfer(addr1.address, 500);
       expect(tokenExchangeDeploy.connect(addr1).transfer(addr2.address, 100))
+      .emit(tokenExchangeDeploy, "TokenTransfer").withArgs(addr1.address, addr2.address, 100);
+    });
+  });
+  describe("exchange transaction", function() {
+    it("should execute token diposit", async function() {
+      const { tokenExchangeDeploy, owner, addr1, addr2} = await loadFixture(deployOneYearTokenExchangeFixture);
+      await tokenExchangeDeploy.transfer(addr1.address, 500);
+      const addr1Balance = await tokenExchangeDeploy.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(400);
+      const addr1ExchangeBalance = await tokenExchangeDeploy.exchangeBalanceOf(addr1.address);
+      expect(addr1ExchangeBalance).to.equal(100);
+    });
+    it("should token transfer after diposit", async function() {
+      const { tokenExchangeDeploy, owner, addr1, addr2} = await loadFixture(deployOneYearTokenExchangeFixture);
+
+      await tokenExchangeDeploy.transfer(addr1.address, 500);
+      const startAddr1Balance = await tokenExchangeDeploy.balanceOf(addr1.address);
+      const startAddr2Balance = await tokenExchangeDeploy.balanceOf(addr2.address);
+      await tokenExchangeDeploy.connect(addr1).transfer(addr2.address, 100);
+
+      const endAddr1Balance = await tokenExchangeDeploy.balanceOf(addr1.address);
+      const endAddr2Balance = await tokenExchangeDeploy.balanceOf(addr2.address);
+      expect(endAddr1Balance).to.equal(startAddr1Balance - BigInt(100));
+      expect(endAddr2Balance).to.equal(startAddr2Balance + BigInt(100));
+    });
+    it("should be issue TokenDiposit event.", async function() {
+      const { tokenExchangeDeploy, owner, addr1, addr2} = await loadFixture(deployOneYearTokenExchangeFixture);
+      await tokenExchangeDeploy.transfer(addr1.address, 500);
+      expect(tokenExchangeDeploy.connect(addr1).deposit(100))
       .emit(tokenExchangeDeploy, "TokenTransfer").withArgs(addr1.address, addr2.address, 100);
     });
   });

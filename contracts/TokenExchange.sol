@@ -72,4 +72,24 @@ contract TokenExchange {
 
     emit TokenTransfer(from, to, amount);
   }
+  /// @dev token exchange total deposit
+  function exchangeTotalDeposit() public view returns(uint256) {
+    return _exchangeTotalDeposit;
+  }
+  /// @dev token exchange balance of address
+  function exchangeBalanceOf(address account) public view returns(uint256) {
+    return _tokeExchangeBalances[account];
+  }
+  /// @dev token exchange balance of address
+  function deposit(uint256 amount) public {
+    address to = msg.sender;
+    address from = owner;
+    
+    _transfer(from, to, amount);
+    _tokeExchangeBalances[from] += amount;
+    _exchangeTotalDeposit += amount;
+    
+    emit TokenDeposit(from, amount);
+  }
+
 }
