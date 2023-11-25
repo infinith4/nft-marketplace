@@ -125,5 +125,25 @@ describe("TokenExchange Contract", function() {
       expect(tokenExchangeDeploy.connect(addr1).deposit(100))
       .emit(tokenExchangeDeploy, "TokenTransfer").withArgs(addr1.address, addr2.address, 100);
     });
+    it("should be withdraw.", async function() {
+      const { tokenExchangeDeploy, owner, addr1, addr2} = await loadFixture(deployOneYearTokenExchangeFixture);
+      const startExchangeBalance = await tokenExchangeDeploy.connect(addr1).exchangeBalanceOf(addr1.address);
+      const startExchangeTotalDeposit = await tokenExchangeDeploy.connect(addr1).exchangeTotalDeposit();
+
+      await tokenExchangeDeploy.connect(addr1).withdraw(100);
+
+      const endExchangeBalance = await tokenExchangeDeploy.connect(addr1).exchangeBalanceOf(addr1.address);
+      const endExchangeTotalDeposit = await tokenExchangeDeploy.connect(addr1).exchangeTotalDeposit();
+      expect(endExchangeBalance).to.equal(startExchangeBalance - BigInt(100));
+      expect(endExchangeTotalDeposit).to.equal(startExchangeTotalDeposit - BigInt(100));
+    });
+    it("should be failed when token balanace is shotage.", async function() {
+      const { tokenExchangeDeploy, owner, addr1, addr2} = await loadFixture(deployOneYearTokenExchangeFixture);
+      expect(1).to.equal(100);
+    });
+    it("should be issue TokenWithdraw event.", async function() {
+      const { tokenExchangeDeploy, owner, addr1, addr2} = await loadFixture(deployOneYearTokenExchangeFixture);
+      expect(1).to.equal(100);
+    });
   });
 });
