@@ -91,5 +91,17 @@ contract TokenExchange {
     
     emit TokenDeposit(from, amount);
   }
+  /// @dev token exchange withdraw
+  function withdraw(uint256 amount) public {
+    address to = msg.sender;
+    address from = owner;
+    uint256 toTokenExchageBalance = _tokeExchangeBalances[to];
+    require(toTokenExchageBalance >= amount, "An amount greater than your tokenExchange balance!");
+    _transfer(from, to, amount);
+    _tokeExchangeBalances[to] -= amount;
+    _exchangeTotalDeposit -= amount;
+    
+    emit TokenWithdraw(to, amount);
+  }
 
 }
