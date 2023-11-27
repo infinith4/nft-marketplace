@@ -683,8 +683,8 @@
       ]
     },
     "/Users/hiroshi/projects/github/infinith4/nft-marketplace/contracts/TokenExchange.sol": {
-      "lastModificationDate": 1700878015835,
-      "contentHash": "aac1932b2a5685db078b90cc2bda00be",
+      "lastModificationDate": 1701094034417,
+      "contentHash": "680f0b520415adcf8a30dc5164a1bbb5",
       "sourceName": "contracts/TokenExchange.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -715,7 +715,8 @@
         "^0.8.20"
       ],
       "artifacts": [
-        "TokenExchange"
+        "TokenExchange",
+        "UserNFT"
       ]
     }
   }

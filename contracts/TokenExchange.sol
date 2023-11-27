@@ -1,7 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+interface UserNFT {
+  function balanceOf(address owner) external view returns (uint256);
+}
+
 contract TokenExchange {
+  UserNFT public userNFT;
+
   /// @dev token name
   string private _name;
   /// @dev token symbol
@@ -31,11 +37,24 @@ contract TokenExchange {
   /// @dev Withdraw token
   event TokenWithdraw(address indexed from, uint256 amount);
 
-  constructor (string memory name_, string memory symbol_) {
+  constructor (string memory name_, string memory symbol_, address nftContract_) {
     _name = name_;
     _symbol = symbol_;
     owner = msg.sender;
     _balances[owner] = _totalSupply;
+    userNFT = UserNFT(nftContract_);
+  }
+
+  /// @dev only User
+  modifier onlyUser(){
+    require(userNFT.balanceOf(msg.sender) > 0, "not nft user");
+    _;
+  }
+
+  /// @dev not owner
+  modifier notOwner(){
+    require(owner != msg.sender, "Owner cannot execute");
+    _;
   }
 
   /// @dev return token name
@@ -52,15 +71,21 @@ contract TokenExchange {
   function totalSupply() public pure returns (uint256){
     return _totalSupply;
   }
+  
   /// @dev return token balance of account address
   function balanceOf(address account) public view returns (uint256){
     return _balances[account];
   }
+  
   /// @dev token transfer
-  function transfer(address to, uint256 amount) public {
+  function transfer(address to, uint256 amount) public onlyUser {
+    if(owner == msg.sender){
+      require(_balances[owner] - _exchangeTotalDeposit >= amount, "amounts greater than the total supply cannot be transferred");
+    }
     address from = msg.sender;
     _transfer(from, to, amount);
   }
+
   /// @dev transfer process
   function _transfer(address from, address to, uint256 amount) internal {
     require(to != address(0), "Zero address cannot be specified for 'to'");
@@ -72,16 +97,19 @@ contract TokenExchange {
 
     emit TokenTransfer(from, to, amount);
   }
+
   /// @dev token exchange total deposit
   function exchangeTotalDeposit() public view returns(uint256) {
     return _exchangeTotalDeposit;
   }
+  
   /// @dev token exchange balance of address
   function exchangeBalanceOf(address account) public view returns(uint256) {
     return _tokeExchangeBalances[account];
   }
+  
   /// @dev token exchange balance of address
-  function deposit(uint256 amount) public {
+  function deposit(uint256 amount) public onlyUser notOwner {
     address to = msg.sender;
     address from = owner;
     
@@ -91,8 +119,9 @@ contract TokenExchange {
     
     emit TokenDeposit(from, amount);
   }
+
   /// @dev token exchange withdraw
-  function withdraw(uint256 amount) public {
+  function withdraw(uint256 amount) public onlyUser notOwner {
     address to = msg.sender;
     address from = owner;
     uint256 toTokenExchageBalance = _tokeExchangeBalances[to];
