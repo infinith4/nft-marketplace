@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-interface UserNFT {
+interface UserToken {
   function balanceOf(address owner) external view returns (uint256);
 }
 
 contract TokenExchange {
-  UserNFT public userNFT;
+  UserToken public userToken;
 
   /// @dev token name
   string private _name;
@@ -42,12 +42,12 @@ contract TokenExchange {
     _symbol = symbol_;
     owner = msg.sender;
     _balances[owner] = _totalSupply;
-    userNFT = UserNFT(nftContract_);
+    userToken = UserToken(nftContract_);
   }
 
   /// @dev only User
   modifier onlyUser(){
-    require(userNFT.balanceOf(msg.sender) > 0, "not nft user");
+    require(userToken.balanceOf(msg.sender) > 0, "not nft user");
     _;
   }
 

@@ -16,7 +16,6 @@ async function main() {
   const unlockTime = currentTimestampInSeconds + 60;
 
   const userNFT = await ethers.deployContract("UserNFT");
-
   await userNFT.waitForDeployment();
 
   console.log(
