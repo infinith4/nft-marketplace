@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 interface UserToken {
   function balanceOf(address owner) external view returns (uint256);
@@ -37,6 +38,8 @@ contract TokenExchange {
   /// @dev Withdraw token
   event TokenWithdraw(address indexed from, uint256 amount);
 
+  event DebugLogEvent(string);
+  
   constructor (string memory name_, string memory symbol_, address nftContract_) {
     _name = name_;
     _symbol = symbol_;
@@ -87,17 +90,22 @@ contract TokenExchange {
   }
 
   /// @dev transfer process
-  function _transfer(address from, address to, uint256 amount) internal {
-    require(to != address(0), "Zero address cannot be specified for 'to'");
-    uint256 fromBalance = _balances[from];
+  function _transfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal {
+        require(to != address(0), "Zero address cannot be specified for 'to'!");
+        uint256 fromBalance = _balances[from];
+        //emit DebugLogEvent(Strings.toString(fromBalance));
+        //emit DebugLogEvent();
+        require(fromBalance >= amount, "Insufficient balance! amount: ");
+        // + Strings.toString(amount) + "fromBalance: " + fromBalance);
 
-    require(fromBalance >= amount, "Insufficient balance.");
-    _balances[from] = fromBalance - amount;
-    _balances[to] += amount;
-
-    emit TokenTransfer(from, to, amount);
-  }
-
+        _balances[from] = fromBalance - amount;
+        _balances[to] += amount;
+        emit TokenTransfer(from, to, amount);
+    }
   /// @dev token exchange total deposit
   function exchangeTotalDeposit() public view returns(uint256) {
     return _exchangeTotalDeposit;
