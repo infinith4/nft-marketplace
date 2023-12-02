@@ -37,10 +37,7 @@ async function deployOneYearTokenExchangeFixture(isTransfer: boolean = false) {
   await userNFT.nftMint(addr2.address, tokenURI4);
   const ownerData = await userNFT.owner();
   const TokenExchangeFactory = await ethers.getContractFactory("TokenExchange");
-  const tokenExchangeDeploy = await TokenExchangeFactory.deploy(name, symbol, ownerData);
-  if(isTransfer){
-    await tokenExchangeDeploy.transfer(addr1.address, 500);
-  }
+  const tokenExchangeDeploy = await TokenExchangeFactory.deploy(name, symbol, userNFT.getAddress());
 
   return { tokenExchangeDeploy, unlockTime, lockedAmount, owner, addr1, addr2, addr3 };
 }

@@ -15,6 +15,7 @@ async function main() {
     `UserNFT https://sepolia.etherscan.io/address/${await tokenExchange.getAddress()} timestamp deployed to ${tokenExchange.target}`
   );
   let tx = await tokenExchange.transfer(addr2, 300);
+  
   await tx.wait();
   console.log("trainsferred to addr2");
   
@@ -43,6 +44,7 @@ async function main() {
   `
   );
   
+  const tokenURI2 = "ipfs://bafybeiai27ucehv7gijzjjhxms5dimq4n5amvjq2kp3varjfujdfsbmxeq/metadata2.json";
   tx = await userNFT.nftMint(addr1, tokenURI2);
   await tx.wait();
   console.log("NFT#2 minted...");
