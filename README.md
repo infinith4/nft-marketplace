@@ -74,3 +74,8 @@ https://repo.sourcify.dev/contracts/full_match/11155111/0x40037B9783a4F30F3C60B0
 ## Frontend
 
 npx create-next-app frontend 
+
+npm i ethers@6.9.0 axios@1.6.2
+
+https://tailwindcss.com/docs/guides/nextjs
+npm i -D tailwindcss postcss autoprefixer
