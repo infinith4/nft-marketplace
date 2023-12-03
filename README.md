@@ -56,3 +56,16 @@ npx hardhat verify --network sepolia 0x8Ccb7518F91dA94A2a67f4fc909109bA68DfB60e
 
 
 npx hardhat run scripts/tokenExchangedeploy.ts --network sepolia
+https://sepolia.etherscan.io/address/0x40037b9783a4f30f3c60b0c20f6616dda6d8bdf0
+
+npx hardhat verify --constructor-args argument.js --network sepolia 0x40037B9783a4F30F3C60B0C20F6616dDa6D8Bdf0
+
+Successfully submitted source code for contract
+contracts/TokenExchange.sol:TokenExchange at 0x40037B9783a4F30F3C60B0C20F6616dDa6D8Bdf0
+for verification on the block explorer. Waiting for verification result...
+
+Successfully verified contract TokenExchange on the block explorer.
+https://sepolia.etherscan.io/address/0x40037B9783a4F30F3C60B0C20F6616dDa6D8Bdf0#code
+
+The contract 0x40037B9783a4F30F3C60B0C20F6616dDa6D8Bdf0 has already been verified on Sourcify.
+https://repo.sourcify.dev/contracts/full_match/11155111/0x40037B9783a4F30F3C60B0C20F6616dDa6D8Bdf0/
