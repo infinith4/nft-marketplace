@@ -99,7 +99,8 @@ contract TokenExchange {
         uint256 fromBalance = _balances[from];
         //emit DebugLogEvent(Strings.toString(fromBalance));
         //emit DebugLogEvent();
-        require(fromBalance >= amount, "Insufficient balance! amount: ");
+        //require(fromBalance >= amount, Strings.toString(amount));
+        require(fromBalance >= amount, Strings.toString(amount));
         // + Strings.toString(amount) + "fromBalance: " + fromBalance);
 
         _balances[from] = fromBalance - amount;

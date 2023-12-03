@@ -8,8 +8,8 @@ async function main() {
   const addr3 = "0xB56eFdCF968f6af7829A41F1B09d78E868952FF2";
   const addr4 = "0xBDAa9EBDC1Ec091A5Cb57D95E957ce6aA28D5AeB";
   
-  const tokenExchange = await ethers.deployContract("TokenExchange");
-  await tokenExchange.waitForDeployment("TokenExchange", "TEX", userNFTAddress);
+  const tokenExchange = await ethers.deployContract("TokenExchange", ["TokenExchange", "TEX", userNFTAddress]);
+  await tokenExchange.waitForDeployment();
 
   console.log(
     `UserNFT https://sepolia.etherscan.io/address/${await tokenExchange.getAddress()} timestamp deployed to ${tokenExchange.target}`
@@ -40,14 +40,14 @@ async function main() {
   fs.writeFileSync("./contracts.js", 
   `
   export const userNFTAddress = "${userNFTAddress}"
-  export const tokenExchangeAddress = "${tokenExchange.address}"
+  export const tokenExchangeAddress = "${await tokenExchange.getAddress()}"
   `
   );
   
-  const tokenURI2 = "ipfs://bafybeiai27ucehv7gijzjjhxms5dimq4n5amvjq2kp3varjfujdfsbmxeq/metadata2.json";
-  tx = await userNFT.nftMint(addr1, tokenURI2);
-  await tx.wait();
-  console.log("NFT#2 minted...");
+  // const tokenURI2 = "ipfs://bafybeiai27ucehv7gijzjjhxms5dimq4n5amvjq2kp3varjfujdfsbmxeq/metadata2.json";
+  // tx = await userNFT.nftMint(addr1, tokenURI2);
+  // await tx.wait();
+  // console.log("NFT#2 minted...");
   // const tokenURI1 = "ipfs://bafybeiai27ucehv7gijzjjhxms5dimq4n5amvjq2kp3varjfujdfsbmxeq/metadata1.json";
   // const tokenURI2 = "ipfs://bafybeiai27ucehv7gijzjjhxms5dimq4n5amvjq2kp3varjfujdfsbmxeq/metadata2.json";
   // const tokenURI3 = "ipfs://bafybeiai27ucehv7gijzjjhxms5dimq4n5amvjq2kp3varjfujdfsbmxeq/metadata3.json";
