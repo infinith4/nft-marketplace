@@ -1,4 +1,11 @@
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import { ethers } from 'ethers'
+import axios from 'axios'
+import { userNFTAddress, tokenExchangeAddress } from '../../contracts'
+import UserNFT from '../contracts/UserNFT.json'
+import TokenExchange from '../contracts/TokenExchange.json'
+
 
 export default function Home() {
   return (
