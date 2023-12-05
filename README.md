@@ -79,3 +79,4 @@ npm i ethers@6.9.0 axios@1.6.2
 
 https://tailwindcss.com/docs/guides/nextjs
 npm i -D tailwindcss postcss autoprefixer
+tes
