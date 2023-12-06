@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
@@ -8,6 +9,30 @@ import TokenExchange from '../contracts/TokenExchange.json'
 
 
 export default function Home() {
+  const [account, setAccount] = useState("");
+  const [chainId, setChainId] = useState(false);
+  const [tokenBalance, setTokenBalance] = useState("");
+  const [bankBalance, setBankBalance] = useState("");
+  const [bankTotalDeposit, setBankTotalDeposit] = useState("");
+  const [nftOwner, setNftOwner] = useState(false);
+  const [inputData, setInputData] = useState({
+    transferAddress: "",
+    transferAmount: "",
+    depositAmount: "",
+    withdrawAmount: "",
+  });
+  const [items, setItems] = useState([]);
+  const sepoliaId = "0x" + Number(11155111).toString(16);
+  const zeroAddress = "0x0000000000000000000000000000000000000000";
+
+  const checkMetaMaskInstalled = async() => {
+    const { ethereum } = window;
+    if(!ethereum) {
+      alert('MetaMask をインストールしてください。');
+    }
+    useEffect( () => {
+      checkMetaMaskInstalled();
+    }, [])
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
